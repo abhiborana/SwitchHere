@@ -2,6 +2,7 @@ import Navbar from "@/components/organisms/Navbar"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "next-themes"
 import { Geist, Geist_Mono } from "next/font/google"
+import { Toaster } from "sonner"
 import "./globals.css"
 
 const geistSans = Geist({
@@ -28,7 +29,7 @@ export default function RootLayout({ children }) {
 		>
 			<body
 				className={cn(
-					"flex flex-col bg-neutral-50 text-gray-950 antialiased scrollbar dark:bg-neutral-950 dark:text-gray-50",
+					"flex min-h-dvh w-screen flex-col overflow-x-hidden bg-neutral-50 text-gray-950 antialiased scrollbar dark:bg-neutral-950 dark:text-gray-50",
 					geistSans.variable,
 					geistMono.variable
 				)}
@@ -40,7 +41,13 @@ export default function RootLayout({ children }) {
 					disableTransitionOnChange
 				>
 					<Navbar />
-					<main>{children}</main>
+					<main className="flex h-full w-full flex-1 flex-col">
+						{children}
+					</main>
+					<Toaster
+						richColors
+						theme="light"
+					/>
 				</ThemeProvider>
 			</body>
 		</html>

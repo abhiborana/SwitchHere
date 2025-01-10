@@ -16,21 +16,19 @@ import {
 } from "@/components/ui/chart"
 
 const chartData = [
-	{ month: "January", desktop: 186, mobile: 80 },
-	{ month: "February", desktop: 305, mobile: 200 },
-	{ month: "March", desktop: 237, mobile: 120 },
-	{ month: "April", desktop: 73, mobile: 190 },
-	{ month: "May", desktop: 209, mobile: 130 },
-	{ month: "June", desktop: 214, mobile: 140 },
+	{ month: "1", desktop: 186, mobile: 80 },
+	{ month: "2", desktop: 305, mobile: 200 },
+	{ month: "3", desktop: 237, mobile: 120 },
+	{ month: "4", desktop: 73, mobile: 190 },
 ]
 
 const chartConfig = {
 	desktop: {
-		label: "Desktop",
+		label: "Goal Set",
 		color: "green",
 	},
 	mobile: {
-		label: "Mobile",
+		label: "Goal Achieved",
 		color: "red",
 	},
 }
@@ -39,8 +37,8 @@ export function WeeklyChart() {
 	return (
 		<Card className="h-full">
 			<CardHeader>
-				<CardTitle>Line Chart - Multiple</CardTitle>
-				<CardDescription>January - June 2024</CardDescription>
+				<CardTitle>Monthly Progress Chart</CardTitle>
+				<CardDescription>January</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<ChartContainer config={chartConfig}>

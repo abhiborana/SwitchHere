@@ -29,16 +29,16 @@ const chartConfig = {
 	},
 }
 
-export function ProgressChart() {
+export function ProgressChart({ progress = 0 }) {
 	const maxValue = 100
-	const currentValue = chartData[0].visitors
+	const currentValue = progress
 	const normalizedEndAngle = (currentValue / maxValue) * 360
 
 	return (
 		<Card className="flex h-full flex-col">
 			<CardHeader>
 				<CardTitle>Progress Chart</CardTitle>
-				<CardDescription>See your Goal</CardDescription>
+				<CardDescription>See your Goals</CardDescription>
 			</CardHeader>
 			<CardContent className="flex h-full w-full items-center justify-center">
 				<ChartContainer
@@ -51,6 +51,7 @@ export function ProgressChart() {
 						endAngle={normalizedEndAngle}
 						innerRadius={100}
 						outerRadius={160}
+						stroke="gray"
 					>
 						<PolarGrid
 							gridType="circle"
@@ -89,8 +90,7 @@ export function ProgressChart() {
 													y={viewBox.cy}
 													className="fill-gray-800 text-4xl font-bold dark:fill-gray-200"
 												>
-													{chartData[0].visitors.toLocaleString()}{" "}
-													%
+													{progress}%
 												</tspan>
 											</text>
 										)

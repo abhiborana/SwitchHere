@@ -70,7 +70,7 @@ import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Button } from "../ui/button"
 import {
 	DropdownMenu,
@@ -81,9 +81,8 @@ import {
 
 const Navbar = () => {
 	const { setTheme } = useTheme()
-	const [user, setUser] = useState(null)
 	const router = useRouter()
-
+	const user = useSwitchStore(state => state.user)
 	const dispatch = useSwitchStore(state => state.dispatch)
 
 	useEffect(() => {
@@ -95,13 +94,6 @@ const Navbar = () => {
 						user: currentUser,
 					},
 				})
-				setUser({
-					name: currentUser.displayName,
-					email: currentUser.email,
-					uid: currentUser.uid,
-				})
-			} else {
-				setUser(null)
 			}
 		})
 
@@ -111,8 +103,13 @@ const Navbar = () => {
 	const handleLogout = async () => {
 		try {
 			await signOut(auth)
-			setUser(null)
-			router.push("/") // Redirect to login page after logout
+			dispatch({
+				type: "SET_STATE",
+				payload: {
+					user: null,
+				},
+			})
+			router.push("/login") // Redirect to login page after logout
 		} catch (error) {
 			console.error("Error logging out:", error)
 		}
@@ -121,7 +118,7 @@ const Navbar = () => {
 	return (
 		<nav className="sticky top-0 z-50 flex w-full items-center justify-between border-b bg-neutral-50/50 px-4 py-2 shadow backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/50">
 			<Link
-				href="/"
+				href={user ? "/dashboard" : "/"}
 				className="inline-flex items-center gap-2"
 			>
 				<Image
@@ -143,14 +140,14 @@ const Navbar = () => {
 									variant="outline"
 									size="sm"
 								>
-									{user.name || "Profile"}
+									{user.displayName || "User"}
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
 								<DropdownMenuItem>
 									<p>
 										<strong>Name:</strong>{" "}
-										{user.name || "N/A"}
+										{user.displayName || "User"}
 									</p>
 								</DropdownMenuItem>
 								<DropdownMenuItem>

@@ -1,23 +1,52 @@
 "use client"
+import { Button } from "@/components/ui/button"
+import { database } from "@/lib/firebase"
+import useSwitchStore from "@/store"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
+import { toast } from "sonner"
 
 const VideoArticle = () => {
+	const router = useRouter()
 	const [data, setData] = useState([])
+	const roadmap = useSwitchStore(store => store.roadmap)
+	console.log("🚀 ~ VideoArticle ~ roadmap:", roadmap)
+	const dispatch = useSwitchStore(store => store.dispatch)
 
 	// const thumbnailSrc = resource?.pagemap?.cse_thumbnail?.[0]?.src
 	// const altText = resource?.title || "Thumbnail image"
+	const [currentMap, currentStep] = useMemo(() => {
+		if (!roadmap) return [null, null]
+		const currentMap = roadmap?.map.find(s => !s.isCompleted)
+		const currentStep = currentMap?.goals.find(s => !s.isCompleted)
+		return [currentMap, currentStep]
+	}, [roadmap])
 
 	useEffect(() => {
+		if (!roadmap) {
+			router.push("/dashboard")
+			toast.error("Please generate a roadmap first.")
+		}
 		const fetchData = async () => {
+			console.log("🚀 ~ fetchData ~ async:")
 			try {
-				const query = "Nextjs React Tailwind"
-
 				const response = await fetch(
-					`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_SEARCH_KEY}&cx=${process.env.NEXT_PUBLIC_CX_KEY}&q=${query} video`
-				).then(response => response.json())
-
+					`https://www.googleapis.com/customsearch/v1?key=${process.env.NEXT_PUBLIC_SEARCH_KEY}&cx=${process.env.NEXT_PUBLIC_CX_KEY}&q=${currentStep?.goal || currentStep}`
+				)
+					.then(response => response.json())
+					.catch(error => {
+						console.error("Error fetching data:", error)
+						toast.error("Failed to fetch data.")
+						router.push("/dashboard")
+					})
+				console.log("🚀 ~ fetchData ~ response:", response)
+				if (response.error) {
+					console.error("Error fetching data:", response.error)
+					toast.error("Failed to fetch data.")
+					router.push("/dashboard")
+				}
 				const formattedResp = response.items
 					.slice(0, 5)
 					.sort((a, b) => {
@@ -32,23 +61,63 @@ const VideoArticle = () => {
 		}
 
 		fetchData()
-	}, [])
+	}, [currentMap, currentStep, router])
 
 	return !data.length ? null : (
 		<div className="flex w-full flex-col p-4">
+			<h1>
+				{currentMap.title} - {currentStep.goal}
+			</h1>
 			<div className="grid grid-cols-4 gap-4">
-				<div className="col-span-3 aspect-video overflow-y-auto rounded-xl bg-neutral-100 p-2">
-					<iframe
-						src={`https://www.youtube.com/embed/${data[0].link.split("v=")[1]}`}
-						title={data[0].title}
-						frameBorder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowFullScreen
-						className="h-full w-full rounded-xl"
-					></iframe>
+				<div className="col-span-4 flex flex-col items-center justify-start gap-4 md:col-span-3">
+					<div className="aspect-video w-full overflow-y-auto rounded-xl bg-neutral-100 p-2">
+						<iframe
+							src={`https://www.youtube.com/embed/${data[0].link.split("v=")[1]}`}
+							title={data[0].title}
+							frameBorder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowFullScreen
+							className="h-full w-full rounded-xl"
+						></iframe>
+					</div>
+					<Button
+						variant="outline"
+						className="ml-auto w-fit rounded-full border-green-500 text-green-500"
+						onClick={() => {
+							const newMap = roadmap.map.map(map => {
+								if (map.title === currentMap.title) {
+									const newGoals = map.goals.map(goal => {
+										if (goal === currentStep) {
+											return {
+												...goal,
+												isCompleted: true,
+											}
+										}
+										return goal
+									})
+									return { ...map, goals: newGoals }
+								}
+								return map
+							})
+							dispatch({
+								type: "SET_STATE",
+								payload: {
+									roadmap: {
+										...roadmap,
+										map: newMap,
+									},
+								},
+							})
+							const db = database.ref(
+								`users/${roadmap.uid}/roadmap`
+							)
+							db.set(roadmap)
+						}}
+					>
+						Mark as Completed
+					</Button>
 				</div>
-
-				<div className="col-span-1 h-[calc(100vh-25px)] flex-1 overflow-y-auto rounded-xl bg-neutral-100 p-2 scrollbar">
+				<div className="col-span-4 h-[calc(100vh-25px)] flex-1 overflow-y-auto rounded-xl bg-neutral-100 p-2 scrollbar md:col-span-1">
 					{data.slice(1, data.length).map((resource, index) => (
 						<Link
 							href={resource.link}
