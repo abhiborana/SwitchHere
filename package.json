@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint",
+		"lint": "pnpm run format:write",
 		"prepare": "husky",
 		"format:write": "prettier --config prettier.config.js \"**/*.{js,ts,jsx,tsx,json}\" --write --cache",
 		"format:check": "prettier --config prettier.config.js \"**/*.{js,ts,jsx,tsx,json}\" --check --cache",
