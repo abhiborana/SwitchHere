@@ -2,6 +2,7 @@ import { ProgressChart } from "@/components/molecules/ProgressChart"
 import { WeeklyChart } from "@/components/molecules/WeeklyChart"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
 
 const page = () => {
 	return (
@@ -26,7 +27,9 @@ const page = () => {
 							<CardTitle>Continue Learning</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<Button>Start Learning</Button>
+							<Button>
+								<Link href="/learn">Start Learning</Link>
+							</Button>
 						</CardContent>
 					</Card>
 					<div className="w-full lg:col-span-2">
