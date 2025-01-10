@@ -1,5 +1,6 @@
 import Navbar from "@/components/organisms/Navbar"
 import { cn } from "@/lib/utils"
+import { ThemeProvider } from "next-themes"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
@@ -27,7 +28,7 @@ export default function RootLayout({ children }) {
 		>
 			<body
 				className={cn(
-					"flex flex-col bg-neutral-50 text-gray-950 antialiased dark:bg-neutral-950 dark:text-gray-50",
+					"flex flex-col bg-neutral-50 text-gray-950 antialiased scrollbar dark:bg-neutral-950 dark:text-gray-50",
 					geistSans.variable,
 					geistMono.variable
 				)}

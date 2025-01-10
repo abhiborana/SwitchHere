@@ -1,8 +1,16 @@
 "use client"
 
+import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
+import { Button } from "../ui/button"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "../ui/dropdown-menu"
 
 const Navbar = () => {
 	const { setTheme } = useTheme()
