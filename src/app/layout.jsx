@@ -1,5 +1,6 @@
 import Navbar from "@/components/organisms/Navbar"
 import { cn } from "@/lib/utils"
+import { ThemeProvider } from "next-themes"
 import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 
