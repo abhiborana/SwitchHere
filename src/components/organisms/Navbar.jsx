@@ -62,7 +62,7 @@
 
 "use client"
 
-import { auth } from "@/lib/firebase" // Import your Firebase auth
+import { auth } from "@/lib/firebase"
 import useSwitchStore from "@/store"
 import { onAuthStateChanged, signOut } from "firebase/auth"
 import { Moon, Sun } from "lucide-react"

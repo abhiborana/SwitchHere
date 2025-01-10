@@ -16,7 +16,8 @@ import {
 	CardTitle,
 } from "@/components/ui/card"
 import { ChartContainer } from "@/components/ui/chart"
-const chartData = [{ browser: "safari", visitors: 70, fill: "green" }]
+
+const chartData = [{ browser: "safari", visitors: 100, fill: "green" }]
 
 const chartConfig = {
 	visitors: {
@@ -29,23 +30,27 @@ const chartConfig = {
 }
 
 export function ProgressChart() {
+	const maxValue = 100
+	const currentValue = chartData[0].visitors
+	const normalizedEndAngle = (currentValue / maxValue) * 360
+
 	return (
 		<Card className="flex h-full flex-col">
-			<CardHeader className="items-center pb-0">
+			<CardHeader>
 				<CardTitle>Progress Chart</CardTitle>
 				<CardDescription>See your Goal</CardDescription>
 			</CardHeader>
-			<CardContent className="items-center justify-center">
+			<CardContent className="flex h-full w-full items-center justify-center">
 				<ChartContainer
 					config={chartConfig}
-					className="mx-auto my-auto aspect-square max-h-[300px]"
+					className="mx-auto my-auto aspect-square h-full max-h-[320px] min-h-[280px]"
 				>
 					<RadialBarChart
 						data={chartData}
 						startAngle={0}
-						endAngle={250}
-						innerRadius={80}
-						outerRadius={140}
+						endAngle={normalizedEndAngle}
+						innerRadius={100}
+						outerRadius={160}
 					>
 						<PolarGrid
 							gridType="circle"
@@ -58,6 +63,7 @@ export function ProgressChart() {
 							dataKey="visitors"
 							background
 							cornerRadius={10}
+							fill={chartData[0].fill}
 						/>
 						<PolarRadiusAxis
 							tick={false}
