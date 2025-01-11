@@ -80,6 +80,9 @@ const VideoArticle = () => {
 							className="h-full w-full rounded-xl"
 						></iframe>
 					</div>
+					<Button>
+						<Link href="/dashboard">Go to Dashboard</Link>
+					</Button>
 					<Button
 						variant="outline"
 						className="ml-auto w-fit rounded-full border-green-500 text-green-500"

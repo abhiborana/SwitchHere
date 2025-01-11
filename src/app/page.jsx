@@ -15,13 +15,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
 	ArrowRight,
 	Award,
 	BookOpen,
-	CheckCircle,
 	FileText,
 	Github,
 	Layout,
@@ -29,7 +27,6 @@ import {
 	Linkedin,
 	Star,
 	Twitter,
-	Video,
 	X,
 	Zap,
 } from "lucide-react"
@@ -248,14 +245,8 @@ const LandingPage = () => {
 								size="lg"
 								className="bg-blue-600 hover:bg-blue-700"
 							>
-								Start 14-Day Free Trial{" "}
+								Start Learning{" "}
 								<ArrowRight className="ml-2 h-5 w-5" />
-							</Button>
-							<Button
-								size="lg"
-								variant="outline"
-							>
-								<Video className="mr-2 h-5 w-5" /> Watch Demo
 							</Button>
 						</div>
 						<div className="mt-12">
@@ -482,97 +473,6 @@ const LandingPage = () => {
 				</Tabs>
 			</div>
 
-			{/* Pricing Section */}
-			<div
-				id="pricing"
-				className="border-t bg-white"
-			>
-				<div className="container mx-auto px-4 py-20">
-					<div className="mb-12 text-center">
-						<h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">
-							Simple, Transparent Pricing
-						</h2>
-						<p className="mx-auto max-w-2xl text-lg text-slate-600">
-							Choose the perfect plan for your career transition
-							journey
-						</p>
-						<div className="mt-6 flex items-center justify-center gap-4">
-							<span className="text-sm text-slate-600">
-								Monthly
-							</span>
-							<Switch
-								checked={isAnnual}
-								onCheckedChange={setIsAnnual}
-							/>
-							<span className="text-sm text-slate-600">
-								Annual{" "}
-								<Badge variant="secondary">Save 20%</Badge>
-							</span>
-						</div>
-					</div>
-
-					<div className="grid gap-8 md:grid-cols-3">
-						{(isAnnual ? pricing.annual : pricing.monthly).map(
-							plan => (
-								<Card
-									key={plan.title}
-									className={`relative ${plan.popular ? "border-blue-600 shadow-lg" : ""}`}
-								>
-									{plan.popular && (
-										<div className="absolute -top-4 left-1/2 -translate-x-1/2">
-											<Badge className="bg-blue-600">
-												Most Popular
-											</Badge>
-										</div>
-									)}
-									<CardHeader>
-										<CardTitle>{plan.title}</CardTitle>
-										<CardDescription>
-											{plan.description}
-										</CardDescription>
-										<div className="mt-4">
-											<span className="text-4xl font-bold">
-												${plan.price}
-											</span>
-											<span className="text-slate-600">
-												/month
-											</span>
-										</div>
-									</CardHeader>
-									<CardContent>
-										<ul className="space-y-3">
-											{plan.features.map(
-												(feature, index) => (
-													<li
-														key={index}
-														className="flex items-center gap-2"
-													>
-														<CheckCircle className="h-5 w-5 text-green-500" />
-														<span className="text-slate-600">
-															{feature}
-														</span>
-													</li>
-												)
-											)}
-										</ul>
-										<Button
-											className={`mt-6 w-full ${plan.popular ? "bg-blue-600 hover:bg-blue-700" : ""}`}
-											variant={
-												plan.popular
-													? "default"
-													: "outline"
-											}
-										>
-											Get Started
-										</Button>
-									</CardContent>
-								</Card>
-							)
-						)}
-					</div>
-				</div>
-			</div>
-
 			{/* FAQs Section */}
 			<div className="container mx-auto px-4 py-20">
 				<div className="mb-12 text-center">
@@ -624,15 +524,8 @@ const LandingPage = () => {
 							size="lg"
 							className="bg-white text-blue-600 hover:bg-blue-50"
 						>
-							Start Free Trial{" "}
+							Start Learning{" "}
 							<ArrowRight className="ml-2 h-5 w-5" />
-						</Button>
-						<Button
-							size="lg"
-							variant="outline"
-							className="border-white text-white hover:bg-blue-700"
-						>
-							Talk to Sales
 						</Button>
 					</div>
 				</div>
