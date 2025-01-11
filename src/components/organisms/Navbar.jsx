@@ -139,13 +139,14 @@ const Navbar = () => {
 								<Button
 									variant="outline"
 									size="sm"
+									className="max-w-xs break-all"
 								>
 									{user.displayName || "User"}
 								</Button>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent align="end">
 								<DropdownMenuItem>
-									<p>
+									<p className="line-clamp-1 break-all">
 										<strong>Name:</strong>{" "}
 										{user.displayName || "User"}
 									</p>

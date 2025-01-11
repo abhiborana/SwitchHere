@@ -151,24 +151,22 @@ export default function AuthPage() {
 	return (
 		<div className="flex min-h-screen w-full flex-col md:flex-row">
 			{/* Left side (hidden on mobile) */}
-			<div className="hidden w-1/2 flex-col justify-between bg-zinc-900 p-8 text-white md:flex">
+			<div className="relative hidden w-1/2 flex-col justify-between border-r p-8 text-white md:flex">
 				<Image
-					src="/dark-lu-logo.svg"
-					width={120}
-					height={50}
+					src="/logo.png"
+					fill
 					alt="Logo"
 					className="self-start"
 				/>
-				<p className="mt-auto text-sm">Learn. Build. Share. Grow</p>
 			</div>
 
 			{/* Right side (auth form) */}
 			<div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
 				<div className="text-center sm:mx-auto sm:w-full sm:max-w-md">
 					<Image
-						src="/light-lu-logo.svg"
-						width={120}
-						height={50}
+						src="/logo.png"
+						width={140}
+						height={140}
 						alt="Logo"
 						className="mx-auto md:hidden"
 					/>

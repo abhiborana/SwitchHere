@@ -70,7 +70,7 @@ const RoadmapBuilder = () => {
 	}
 
 	return (
-		<div className="h-navScreen container flex w-full flex-col items-center justify-center gap-4">
+		<div className="h-navScreen container mx-auto flex w-full flex-col items-center justify-start gap-4">
 			{status === "career" ? (
 				<>
 					<h3 className="text-2xl">
@@ -81,6 +81,7 @@ const RoadmapBuilder = () => {
 						className="max-w-lg rounded-full p-2 px-4 text-xl"
 						value={input}
 						onChange={e => setInput(e.target.value)}
+						autoFocus
 					/>
 					<Button
 						onClick={() => setStatus("form")}
@@ -129,6 +130,16 @@ const RoadmapBuilder = () => {
 							setForm(newForm)
 						}}
 						className="max-w-lg rounded-full p-2 px-4 text-xl"
+						autoFocus
+						onKeyDown={e => {
+							if (e.key === "Enter") {
+								if (currentStep === form.length - 1) {
+									handleGenerateRoadmap()
+								} else {
+									setCurrentStep(currentStep + 1)
+								}
+							}
+						}}
 					/>
 					<div className="flex w-full max-w-xl items-center justify-between">
 						<p className="text-center text-xs">
@@ -162,7 +173,7 @@ const RoadmapBuilder = () => {
 				)
 			) : status === "result" ? (
 				<>
-					<div className="relative aspect-video w-full overflow-auto scrollbar">
+					<div className="relative w-full overflow-auto scrollbar">
 						<RoadmapTimeline map={roadmap.map} />
 					</div>
 					<Button asChild>
@@ -192,17 +203,17 @@ const RoadmapTimeline = ({ map = [] }) => {
 		let timeline = []
 		map.forEach(map => {
 			timeline.push({
-				title: map.title,
+				title: map?.title,
 				content: (
 					<div className="flex flex-col gap-4">
-						<p className="text-xl font-medium">{map.objective}</p>
+						<p className="text-xl font-medium">{map?.objective}</p>
 						<div className="grid grid-cols-2 gap-4">
-							{map.goals.map(goal => (
+							{map?.goals?.map(goal => (
 								<div
-									key={goal.goal}
-									className="inline-flex items-center justify-center text-balance rounded-full border border-green-500 p-2 px-4 text-center text-lg"
+									key={goal?.goal}
+									className="inline-flex items-center justify-center text-balance rounded-xl border border-green-500 p-2 px-4 text-center text-lg shadow"
 								>
-									{goal}
+									{goal?.goal}
 								</div>
 							))}
 						</div>

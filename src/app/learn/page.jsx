@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { database } from "@/lib/firebase"
 import useSwitchStore from "@/store"
+import { getDatabase, ref, set } from "firebase/database"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -108,10 +108,12 @@ const VideoArticle = () => {
 									},
 								},
 							})
-							const db = database.ref(
-								`users/${roadmap.uid}/roadmap`
-							)
-							db.set(roadmap)
+							// const db = database.ref(
+							// 	`users/${roadmap.uid}/roadmap`
+							// )
+							// db.set(roadmap)
+							const db = getDatabase()
+							set(ref(db, `users/${user.uid}/roadmap`), roadmap)
 						}}
 					>
 						Mark as Completed

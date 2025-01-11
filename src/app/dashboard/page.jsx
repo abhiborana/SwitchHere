@@ -9,7 +9,7 @@ import useSwitchStore from "@/store"
 import { get, ref } from "firebase/database"
 import { SparkleIcon } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 const page = () => {
 	const [data, setData] = useState(null)
@@ -50,6 +50,17 @@ const page = () => {
 		if (roadmap) setData({ roadmap: roadmap })
 	}, [user])
 
+	const progress = useMemo(() => {
+		if (!data) return 0
+		const currentStep = data.roadmap.map.find(s => !s.isCompleted)
+		const currentMapProgress = currentStep?.goals
+		return (
+			(currentMapProgress.filter(s => s.isCompleted).length /
+				currentMapProgress.length) *
+			100
+		)
+	}, [data])
+
 	if (!user) return null
 
 	return (
@@ -66,12 +77,7 @@ const page = () => {
 							<CardContent>
 								<div className="space-y-2">
 									<p className="text-xs md:text-base">
-										You have completed{" "}
-										{(data.roadmap.map.filter(
-											e => e?.isCompleted
-										) /
-											data.roadmap.map.length) *
-											100}
+										You have completed {progress.toFixed(1)}
 										% of your roadmap!!!
 									</p>
 								</div>
@@ -88,15 +94,7 @@ const page = () => {
 							</CardContent>
 						</Card>
 						<div className="w-full lg:col-span-2">
-							<ProgressChart
-								progress={
-									(data.roadmap.map.filter(
-										e => e?.isCompleted
-									) /
-										data.roadmap.map.length) *
-									100
-								}
-							/>
+							<ProgressChart progress={progress.toFixed(1)} />
 						</div>
 						<div className="w-full lg:col-span-4">
 							<WeeklyChart />
